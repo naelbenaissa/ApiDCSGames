@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 use App\Models\Application;
 use App\Models\LigneFacturation;
+use App\Models\Produit;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -49,5 +50,10 @@ class AllController extends Controller {
             ->get();
 
         return response()->json($evolutionVolumes);
+    }
+
+    public function listeProduit()
+    {
+        return response()->json(Produit::all());
     }
 }
