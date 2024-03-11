@@ -31,25 +31,47 @@ class AllController extends Controller {
             ->join('grandclients', 'clients.GrandClientID', '=', 'grandclients.GrandClientID')
             ->whereBetween('ligne_facturation.mois', ['2021-01-01', '2022-04-30'])
             ->groupBy('grandclients.NomGrandClient', 'Mois', 'Annee')
-            ->orderBy('MontantTotalEuro', 'desc')
-            ->limit(5)
+            ->orderBy('grandclients.NomGrandClient')
+            ->orderBy('Annee')
+            ->orderBy('Mois')
             ->get();
 
-        return response()->json($evolutionMontants);
+        // Récupérer les noms des cinq plus grands clients
+        $topClients = $evolutionMontants->pluck('GrandClient')->unique()->take(5);
+
+        // Filtrer les données pour inclure uniquement les cinq plus grands clients
+        $filteredData = $evolutionMontants->filter(function ($item) use ($topClients) {
+            return $topClients->contains($item->GrandClient);
+        });
+
+        // Formatage des données pour le graphique (directement accessible)
+        $graphData = $filteredData->toArray();
+
+        return response()->json($graphData);
     }
 
-    public function evolutionVolumesProduits($id)
+    public function evolutionVolumesProduit1_1()
     {
-        $evolutionVolumes = LigneFacturation::selectRaw('produit.NOM_PRODUIT AS NomProduit, MONTH(ligne_facturation.mois) AS Mois, YEAR(ligne_facturation.mois) AS Annee, SUM(ligne_facturation.volume) AS VolumeTotal')
+        $evolutionVolumes = $this->getEvolutionVolumesByProduit('PRODUIT1_1');
+        return response()->json($evolutionVolumes);
+    }
+
+    public function evolutionVolumesProduit1_4()
+    {
+        $evolutionVolumes = $this->getEvolutionVolumesByProduit('PRODUIT1_4');
+        return response()->json($evolutionVolumes);
+    }
+
+    private function getEvolutionVolumesByProduit($nomProduit)
+    {
+        return LigneFacturation::selectRaw('produit.NOM_PRODUIT AS NomProduit, MONTH(ligne_facturation.mois) AS Mois, YEAR(ligne_facturation.mois) AS Annee, SUM(ligne_facturation.volume) AS VolumeTotal')
             ->join('produit', 'ligne_facturation.produitID', '=', 'produit.produitID')
-            ->where('produit.NOM_PRODUIT', $id)
+            ->where('produit.NOM_PRODUIT', $nomProduit)
             ->whereBetween('ligne_facturation.mois', ['2021-01-01', '2022-04-30'])
             ->groupBy('produit.NOM_PRODUIT', 'Mois', 'Annee')
             ->orderBy('Annee')
             ->orderBy('Mois')
             ->get();
-
-        return response()->json($evolutionVolumes);
     }
 
     public function listeProduit()

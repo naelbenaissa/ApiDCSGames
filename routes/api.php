@@ -21,6 +21,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 Route::get('one', [AllController::class, "meilleurAppli"]);
 Route::get('two', [AllController::class, "evolutionMontant"]);
-Route::post('three/{id}', [AllController::class, "evolutionVolumesProduits"]);
+Route::get('three', [AllController::class, "evolutionVolumesProduit1_1"]);
+Route::get('four', [AllController::class, "evolutionVolumesProduit1_4"]);
 
 Route::get('listeProduits', [AllController::class, "listeProduit"]);
