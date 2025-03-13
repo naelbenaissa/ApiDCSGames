@@ -2,31 +2,36 @@
 
 # ApiDemo - Laravel API
 
-Le projet ApiDCSGames a été réalisé dans le cadre des épreuves de qualification de DCS IT GAMES, un concours entre les lycées du BTS SIO organisé par l'entreprise DCS Easyware. Cette API a été conçue comme le backend d'un projet Angular, et elle a été développée pour envoyer des données au format JSON.
+The ApiDCSGames project was developed as part of the qualification rounds for the DCS IT GAMES, a competition between BTS SIO high schools organized by the company DCS Easyware. This API was designed as the backend for an Angular project and was developed to send data in JSON format.
 
-## Fonctionnalités
+## Features
 
-- **Endpoints :** L'API offre des endpoints pour interagir avec différentes ressources.
+- **Endpoints:** The API provides endpoints to interact with various resources.
 
-## Installation et Configuration
+## Installation and Configuration
 
-1. **Cloner le projet :**
+1. **Clone the project:**
    ```bash
    git clone https://github.com/nbena69/ApiDemo.git
+   ```
 
-2. **Installer les dépendances :**
+2. **Install dependencies:**
    ```bash
    cd ApiDemo
    composer install
+   ```
 
-3. **Configurer la base de données :**
-- Créez une copie du fichier .env.example et renommez-le en .env.
-- Configurez les paramètres de la base de données dans le fichier .env.
+3. **Configure the database:**
+   - Create a copy of the `.env.example` file and rename it to `.env`.
+   - Configure the database settings in the `.env` file.
 
-4. **Effectuer les migrations et les seeds :**
+4. **Run migrations and seed the database:**
    ```bash
    php artisan migrate --seed
+   ```
 
-5. **Lancer le serveur de développement :**
+5. **Start the development server:**
    ```bash
-    php artisan serve
+   php artisan serve
+   ```
+
